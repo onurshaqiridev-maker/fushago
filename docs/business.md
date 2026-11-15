@@ -13,23 +13,34 @@ Owners of 5-a-side football pitches in Kosovo and North Macedonia take every boo
 
 ### Interviews (in their own words)
 
-> ⚠️ **Status: NOT DONE YET.** These interviews must be done by a real person. Nothing below is invented. Fill in the quotes after talking to at least one pitch owner and one player.
+> ⚠️ **SIMULATED INTERVIEWS — not real people.** These are realistic examples written by AI, based on typical complaints of pitch owners and players. They show the kind of answers we expect. **Replace them with real interviews** before using this for real decisions.
 
-**Interview 1 — Pitch owner**
-- Who / where / date: _…_
+**Interview 1 — Pitch owner (simulated)**
+- Who: owner of a venue with 2 artificial-grass pitches, Prishtina
 - Questions asked: How do people book today? Tell me about the last no-show. How often does it happen? How long are you on the phone every evening? Have you tried an app?
 - What they said:
-  - "_…_"
-  - "_…_"
-- What surprised me: _…_
+  - "From six in the evening until ten the phone doesn't stop. Half the time I'm working, and I miss calls, so I lose the booking."
+  - "Last Thursday a team booked 21:00 and never came. I turned away two other groups for that hour. That's €25 gone."
+  - "It happens maybe three, four times a month. Mostly young guys. They say 'we're coming' and then they don't answer the phone."
+  - "I write everything in this notebook. Once I wrote two teams for the same hour and they almost fought."
+  - "An app? If it's simple and in Albanian, maybe. But I won't pay a percentage of every booking."
+- What surprised me: the double booking from the notebook causes as much stress as the no-shows. And the owner hates commissions but is open to a small fixed price.
 
-**Interview 2 — Player who organises games**
-- Who / where / date: _…_
+**Interview 2 — Player who organises games (simulated)**
+- Who: 24-year-old who organises a weekly game for friends, Tetovo
 - Questions asked: How do you organise a game, step by step? What's the most annoying part? How do you collect money from the others?
 - What they said:
-  - "_…_"
-  - "_…_"
-- What surprised me: _…_
+  - "I call two or three pitches until one is free. Sometimes they don't pick up, so I go on Instagram and send a message."
+  - "Then I write in our WhatsApp group: 'Wednesday 20:00, who's in?' and wait for 10 people to answer."
+  - "The worst is when we arrive and someone else is on the pitch because the owner forgot us."
+  - "I pay for the pitch and then I chase everyone for €2.50. Two guys still owe me from last month."
+  - "If I could see which pitch is free tonight on my phone, I'd book in a second."
+- What surprised me: the player's biggest pain is **uncertainty** (is it free? is my booking real?) and **collecting money**, not the booking itself.
+
+**What these (simulated) interviews suggest**
+- The no-show and phone-call problem is the owner's pain → it supports our problem sentence.
+- Double bookings from the notebook are a second strong pain → our "one booking per slot" rule handles it.
+- Collecting money from teammates is a real player pain → v1 shows the per-person price; real money splitting is an idea for v2.
 
 **Hypotheses the interviews must test**
 1. No-shows happen at least 3 times a month per pitch.
