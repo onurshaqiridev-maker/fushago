@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="520" height="128">
+  <g><rect width="64" height="64" rx="16" fill="#12A150"/><rect x="10" y="14" width="44" height="36" rx="3" fill="none" stroke="#FFFFFF" stroke-width="3"/><line x1="32" y1="14" x2="32" y2="50" stroke="#FFFFFF" stroke-width="3"/><circle cx="32" cy="32" r="9" fill="#12A150" stroke="#FFFFFF" stroke-width="3"/><path d="M29 27.5 L37 32 L29 36.5 Z" fill="#C8F31D"/></g>
+  <text x="78" y="45" font-family="Poppins, Montserrat, Arial, sans-serif" font-weight="700" font-size="36" letter-spacing="-0.5"><tspan fill="#FFFFFF">Fusha</tspan><tspan fill="#C8F31D">Go</tspan></text>
+</svg>
