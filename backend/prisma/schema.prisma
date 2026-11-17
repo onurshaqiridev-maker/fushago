@@ -1,0 +1,200 @@
+// FushaGo data models.
+// Every model here comes from docs/rules-and-flows.md.
+// After changing this file, run: npx prisma migrate dev --name what-you-changed
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL") // the database is one file: backend/prisma/dev.db
+}
+
+// ---------- Choice lists (enums) ----------
+
+enum Role {
+  PLAYER // books pitches
+  OWNER  // owns a venue, pays the subscription
+  STAFF  // works at a venue
+  ADMIN  // FushaGo team
+}
+
+enum VenueStatus {
+  PENDING   // waiting for admin approval (flow 3, step 5)
+  APPROVED  // visible to players
+  SUSPENDED // blocked by admin
+}
+
+enum SubscriptionStatus {
+  TRIAL   // 3 months free
+  ACTIVE  // paying €19 / month
+  EXPIRED // no new bookings accepted (rule 13)
+}
+
+enum Surface {
+  INDOOR
+  OUTDOOR
+}
+
+enum BookingStatus {
+  PENDING   // player has 2 strikes, owner must approve (rule 7)
+  CONFIRMED // booked
+  CANCELLED // cancelled by player or owner
+  PLAYED    // game happened (default after 24 h)
+  NO_SHOW   // team did not come (rule 6)
+}
+
+enum StrikeReason {
+  NO_SHOW     // 1 point
+  LATE_CANCEL // 0.5 point (cancelled less than 6 h before)
+}
+
+// ---------- Models ----------
+
+// Anyone with an account: player, owner, staff or admin.
+model User {
+  id              Int       @id @default(autoincrement())
+  name            String
+  email           String    @unique
+  phone           String
+  passwordHash    String
+  role            Role      @default(PLAYER)
+  emailVerifiedAt DateTime? // must be set before the first booking (rule 11)
+  createdAt       DateTime  @default(now())
+
+  ownedVenues     Venue[]      @relation("VenueOwner")
+  staffAt         VenueStaff[]
+  bookings        Booking[]    @relation("BookingPlayer")
+  createdBookings Booking[]    @relation("BookingCreatedBy")
+  strikes         Strike[]
+}
+
+// A sports centre with one or more pitches.
+model Venue {
+  id                 Int                @id @default(autoincrement())
+  ownerId            Int
+  name               String
+  city               String
+  address            String
+  phone              String
+  description        String?
+  status             VenueStatus        @default(PENDING)
+  subscriptionStatus SubscriptionStatus @default(TRIAL)
+  trialEndsAt        DateTime?
+  createdAt          DateTime           @default(now())
+
+  owner        User           @relation("VenueOwner", fields: [ownerId], references: [id])
+  staff        VenueStaff[]
+  pitches      Pitch[]
+  openingHours OpeningHours[]
+}
+
+// Links a STAFF user to the venue they work at.
+model VenueStaff {
+  venueId Int
+  userId  Int
+
+  venue Venue @relation(fields: [venueId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([venueId, userId])
+}
+
+// When a venue is open, per day of the week. Slots are 1 hour (rule 1).
+model OpeningHours {
+  id        Int @id @default(autoincrement())
+  venueId   Int
+  dayOfWeek Int // 0 = Sunday, 1 = Monday ... 6 = Saturday
+  openHour  Int // e.g. 16 = 16:00
+  closeHour Int // e.g. 24 = midnight; the last slot starts at closeHour - 1
+
+  venue Venue @relation(fields: [venueId], references: [id], onDelete: Cascade)
+
+  @@unique([venueId, dayOfWeek])
+}
+
+// One football pitch inside a venue. The owner sets the prices (rule 9).
+model Pitch {
+  id             Int     @id @default(autoincrement())
+  venueId        Int
+  name           String  // e.g. "Pitch 1"
+  surface        Surface @default(OUTDOOR)
+  playersPerSide Int     @default(5)
+  priceCents     Int     // normal price per hour, in euro cents (2500 = €25.00)
+  peakPriceCents Int?    // optional evening price
+  peakFromHour   Int?    // e.g. 19 = peak price from 19:00
+  isActive       Boolean @default(true)
+
+  venue     Venue              @relation(fields: [venueId], references: [id], onDelete: Cascade)
+  bookings  Booking[]
+  recurring RecurringBooking[]
+  blocks    SlotBlock[]
+}
+
+// One reserved hour on one pitch. Only one active booking per pitch per hour (rule 2).
+model Booking {
+  id            Int           @id @default(autoincrement())
+  pitchId       Int
+  playerId      Int?          // empty for walk-in / phone bookings added by staff
+  createdById   Int           // who made the booking (player, owner or staff)
+  guestName     String?       // name for walk-in / phone bookings
+  startsAt      DateTime
+  endsAt        DateTime      // always startsAt + 1 hour
+  priceCents    Int           // price is saved when booked, so later price changes don't affect it (rule 9)
+  status        BookingStatus @default(CONFIRMED)
+  cancelledAt   DateTime?
+  cancelledById Int?
+  cancelReason  String?       // required when the owner cancels (flow 2, step 5)
+  recurringId   Int?          // set if created from a weekly booking
+  createdAt     DateTime      @default(now())
+
+  pitch     Pitch             @relation(fields: [pitchId], references: [id])
+  player    User?             @relation("BookingPlayer", fields: [playerId], references: [id])
+  createdBy User              @relation("BookingCreatedBy", fields: [createdById], references: [id])
+  recurring RecurringBooking? @relation(fields: [recurringId], references: [id])
+  strikes   Strike[]
+
+  @@index([pitchId, startsAt])
+  @@index([playerId])
+}
+
+// A regular team that plays every week at the same time (flow 3, step 4).
+model RecurringBooking {
+  id        Int       @id @default(autoincrement())
+  pitchId   Int
+  teamName  String
+  dayOfWeek Int       // 0 = Sunday ... 6 = Saturday
+  startHour Int       // e.g. 20 = 20:00
+  startDate DateTime
+  endDate   DateTime? // empty = no end date
+  isActive  Boolean   @default(true)
+
+  pitch    Pitch     @relation(fields: [pitchId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+}
+
+// Time the owner closed a pitch (maintenance, tournament) (rule 10).
+model SlotBlock {
+  id       Int      @id @default(autoincrement())
+  pitchId  Int
+  startsAt DateTime
+  endsAt   DateTime
+  reason   String
+
+  pitch Pitch @relation(fields: [pitchId], references: [id], onDelete: Cascade)
+}
+
+// A penalty for a no-show (1 point) or late cancellation (0.5 point).
+// 2 points within 60 days = booking requests need owner approval (rule 7).
+model Strike {
+  id        Int          @id @default(autoincrement())
+  playerId  Int
+  bookingId Int
+  reason    StrikeReason
+  points    Float        // 1 or 0.5
+  createdAt DateTime     @default(now())
+
+  player  User    @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+}

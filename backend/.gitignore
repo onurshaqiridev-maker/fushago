@@ -1,0 +1,5 @@
+node_modules
+.env
+# SQLite database files stay out of git
+*.db
+*.db-journal

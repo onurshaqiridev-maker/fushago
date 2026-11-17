@@ -11,5 +11,21 @@ FushaGo is a mobile-first web app for players and pitch owners in Kosovo and Nor
 | [docs/brand-book.md](docs/brand-book.md) | Part 5: name, tagline, logo, colours, fonts, tone of voice |
 | [docs/brand/](docs/brand/) | Logo files (SVG + PNG) and one-page brand board |
 | [docs/rules-and-flows.md](docs/rules-and-flows.md) | Part 6: roles, main flows, business rules, what v1 will NOT do |
+| [docs/stack.md](docs/stack.md) | Technologies and why |
+| [docs/data-model.md](docs/data-model.md) | What the product stores, with a diagram |
+
+## Run it
+Needs Node.js 22+.
+
+```bash
+cd backend && npm install && cp .env.example .env && npx prisma migrate dev && npm run dev
+```
+Back end: http://localhost:3001/health
+
+In a second terminal:
+```bash
+cd frontend && npm install && npm run dev
+```
+Front end (landing page): http://localhost:5173
 
 ![Brand board](docs/brand/brand-board.png)
