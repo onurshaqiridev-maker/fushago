@@ -35,7 +35,3 @@ In a second terminal:
 cd frontend && npm install && npm run dev
 ```
 Front end (landing page): http://localhost:5173
-
-## Brand book
-
-![Brand board](docs/brand/brand-board.png)
