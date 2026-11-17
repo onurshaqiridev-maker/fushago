@@ -1,7 +1,5 @@
 # FushaGo — Brand book v1 (Part 5)
 
-![FushaGo brand board](brand/brand-board.png)
-
 ## Name
 **FushaGo**: *"fusha"* is Albanian for "pitch/field", and *"Go"* means let's play. It's short, easy to say in Albanian, Macedonian and English, and tells you what the product is about.
 
@@ -26,7 +24,6 @@ A green rounded square with a **pitch seen from above** (outline + centre line).
 | [`brand/logo-icon.svg`](brand/logo-icon.svg) | App icon, favicon, profile picture |
 | [`brand/logo-light.svg`](brand/logo-light.svg) · [`.png`](brand/logo-light.png) | Logo on **light** backgrounds |
 | [`brand/logo-dark.svg`](brand/logo-dark.svg) · [`.png`](brand/logo-dark.png) | Logo on **dark** backgrounds |
-| [`brand/brand-board.png`](brand/brand-board.png) | The whole brand on one page |
 
 **Rules:** don't stretch the logo, don't change its colours, and leave space around it at least as wide as the "o" in "Go".
 
