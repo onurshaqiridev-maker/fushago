@@ -4,6 +4,14 @@
 
 FushaGo is a mobile-first web app for players and pitch owners in Kosovo and North Macedonia. Players see free slots and book instantly; owners manage bookings from their phone and stop losing money to no-shows.
 
+## Landing page
+
+![FushaGo landing page on desktop](docs/screenshots/landing-desktop.png)
+
+<p align="center">
+  <img src="docs/screenshots/landing-phone.png" alt="FushaGo landing page on a phone" width="300">
+</p>
+
 ## Docs
 | File | What's inside |
 |---|---|
@@ -27,5 +35,7 @@ In a second terminal:
 cd frontend && npm install && npm run dev
 ```
 Front end (landing page): http://localhost:5173
+
+## Brand book
 
 ![Brand board](docs/brand/brand-board.png)
