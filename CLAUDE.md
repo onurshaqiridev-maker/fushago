@@ -15,7 +15,7 @@ fushago/
 │   └── brand/              ← logo files
 ├── frontend/               ← React app (the website)
 │   ├── public/             ← logo-icon.svg and other static files
-│   └── src/                ← App.jsx (landing page), index.css (brand colours/fonts)
+│   └── src/                ← App.jsx (landing page), PitchArt.jsx (pitch drawing), index.css (brand colours/fonts)
 └── backend/                ← Express server
     ├── prisma/
     │   ├── schema.prisma   ← the data models (source of truth)

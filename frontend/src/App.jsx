@@ -1,5 +1,6 @@
 // The landing page: the only screen in this first version.
 // Text comes from docs/business.md and docs/brand-book.md.
+import PitchArt from './PitchArt.jsx';
 
 function App() {
   return (
@@ -12,13 +13,16 @@ function App() {
       </header>
 
       <section className="hero">
-        <p className="badge">Së shpejti · Coming soon</p>
-        <h1>Fusha jote, në një klik.</h1>
-        <p className="tagline-en">Your pitch, one tap away.</p>
-        <p className="pitch">
-          Book a 5-a-side football pitch near you in 30 seconds, with no phone
-          calls and no lost slots.
-        </p>
+        <div className="hero-text">
+          <p className="badge">Së shpejti · Coming soon</p>
+          <h1>Fusha jote, në një klik.</h1>
+          <p className="tagline-en">Your pitch, one tap away.</p>
+          <p className="pitch">
+            Book a 5-a-side football pitch near you in 30 seconds, with no phone
+            calls and no lost slots.
+          </p>
+        </div>
+        <PitchArt />
       </section>
 
       <footer className="footer">
